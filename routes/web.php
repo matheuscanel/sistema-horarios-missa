@@ -17,7 +17,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/registro', [AuthController::class, 'registro']);
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // --- Área da Paróquia (logada) ---
 Route::middleware('auth')->prefix('paroquia')->name('paroquia.')->group(function () {
