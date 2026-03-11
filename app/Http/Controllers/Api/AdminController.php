@@ -33,4 +33,22 @@ class AdminController extends Controller
         $paroquia->update(['status' => 'rejeitada']);
         return response()->json(['mensagem' => 'Paróquia rejeitada.']);
     }
+
+    public function remover(Paroquia $paroquia)
+    {
+        // Remove igrejas e horários associados
+        foreach ($paroquia->igrejas as $igreja) {
+            $igreja->horarioMissas()->delete();
+            $igreja->delete();
+        }
+
+        // Desvincula o usuário da paróquia (se existir)
+        if ($paroquia->user) {
+            $paroquia->user->update(['paroquia_id' => null]);
+        }
+
+        $paroquia->delete();
+
+        return response()->json(['mensagem' => 'Paróquia removida com sucesso!']);
+    }
 }

@@ -43,10 +43,20 @@ class AuthController extends Controller
     public function registro(Request $request)
     {
         $request->validate([
-            'nome_paroquia' => 'required|string|max:255',
+            'nome_paroquia' => 'required|string|max:255|unique:paroquias,nome',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
+        ], [
+            'nome_paroquia.required' => 'O nome da paróquia é obrigatório.',
+            'nome_paroquia.unique' => 'Já existe uma paróquia cadastrada com esse nome.',
+            'name.required' => 'O nome do responsável é obrigatório.',
+            'email.required' => 'O e-mail é obrigatório.',
+            'email.email' => 'Informe um e-mail válido.',
+            'email.unique' => 'Este e-mail já está em uso.',
+            'password.required' => 'A senha é obrigatória.',
+            'password.min' => 'A senha deve ter no mínimo 6 caracteres.',
+            'password.confirmed' => 'As senhas não coincidem.',
         ]);
 
         $paroquia = Paroquia::create([

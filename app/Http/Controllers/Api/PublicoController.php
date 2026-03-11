@@ -25,6 +25,17 @@ class PublicoController extends Controller
             });
         }
 
+        if ($request->filled('busca')) {
+            $termo = $request->busca;
+            $query->where(function ($q) use ($termo) {
+                $q->where('nome', 'like', "%{$termo}%")
+                  ->orWhere('bairro', 'like', "%{$termo}%")
+                  ->orWhereHas('paroquia', function ($q2) use ($termo) {
+                      $q2->where('nome', 'like', "%{$termo}%");
+                  });
+            });
+        }
+
         $igrejas = $query->get();
 
         $bairros = Igreja::whereHas('paroquia', function ($q) {
