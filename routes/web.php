@@ -35,7 +35,7 @@ Route::middleware('auth')->prefix('paroquia')->name('paroquia.')->group(function
 });
 
 // --- Área do Admin ---
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::patch('/paroquias/{paroquia}/aprovar', [AdminController::class, 'aprovar'])->name('aprovar');
     Route::patch('/paroquias/{paroquia}/rejeitar', [AdminController::class, 'rejeitar'])->name('rejeitar');

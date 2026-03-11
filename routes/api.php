@@ -42,8 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/horarios/{horario}', [ParoquiaController::class, 'excluirHorario']);
     });
 
-    // --- Área do Admin ---
-    Route::prefix('admin')->group(function () {
+    // --- Área do Admin (requer tipo 'admin') ---
+    Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('/paroquias', [AdminController::class, 'index']);
         Route::patch('/paroquias/{paroquia}/aprovar', [AdminController::class, 'aprovar']);
         Route::patch('/paroquias/{paroquia}/rejeitar', [AdminController::class, 'rejeitar']);
