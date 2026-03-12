@@ -56,7 +56,25 @@ class ParoquiaController extends Controller
     public function criarHorario(Request $request, Igreja $igreja)
     {
         $this->autorizarIgreja($igreja);
-        $request->validate(['dia_semana' => 'required', 'horario' => 'required']);
+        
+        $request->validate([
+            'dia_semana' => 'required|string',
+            'horario' => 'required'
+        ]);
+
+        // Verifica duplicidade
+        $existe = $igreja->horarioMissas()
+            ->where('dia_semana', $request->dia_semana)
+            ->where('horario', $request->horario)
+            ->exists();
+
+        if ($existe) {
+            return response()->json([
+                'message' => 'Este horário já está cadastrado para esta igreja.',
+                'errors' => ['horario' => ['Horário duplicado.']]
+            ], 422);
+        }
+
         $horario = $igreja->horarioMissas()->create($request->only('dia_semana', 'horario'));
         return response()->json(['mensagem' => 'Horário adicionado.', 'horario' => $horario], 201);
     }
