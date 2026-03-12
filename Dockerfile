@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev \
     zip \
-    libonig-dev
+    libonig-dev \
+    libpq-dev
 
 RUN docker-php-ext-install \
     pdo \
