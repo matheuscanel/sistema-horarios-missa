@@ -97,6 +97,17 @@ class ParoquiaController extends Controller
             'horario' => 'required|date_format:H:i',
         ]);
 
+        // Verifica se já existe um horário igual para esta igreja
+        $existe = $igreja->horarioMissas()
+            ->where('dia_semana', $request->dia_semana)
+            ->where('horario', $request->horario)
+            ->exists();
+
+        if ($existe) {
+            return back()->withErrors(['horario' => 'Este horário já está cadastrado para esta igreja.'])
+                         ->withInput();
+        }
+
         // Cria o horário vinculado à igreja via relacionamento
         $igreja->horarioMissas()->create($request->only('dia_semana', 'horario'));
 
