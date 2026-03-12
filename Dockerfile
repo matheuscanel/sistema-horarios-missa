@@ -23,6 +23,8 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
+RUN php artisan migrate --force || true
+
 RUN chown -R www-data:www-data /var/www/html
 
 RUN a2enmod rewrite
