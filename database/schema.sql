@@ -1,4 +1,4 @@
--- Script SQL para criação do banco de dados (TicketPE - Sistema de Missas)
+-- Script SQL para criação do banco de dados (MissasPE - Sistema de Missas)
 -- Otimizado para PostgreSQL
 
 -- Tabela de Paróquias
