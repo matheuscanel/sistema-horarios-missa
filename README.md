@@ -32,11 +32,20 @@ Acesse em: `http://127.0.0.1:8000`
 ---
 
 ## 🐳 Rodando com Docker
-Se preferir usar Docker:
+
+⚠️ Se o banco estiver rodando na sua máquina local, configure no `.env`:
+
+DB_HOST=host.docker.internal
+
+Depois execute:
+
 ```bash
 docker build -t MissasPE-backend .
-docker run -d -p 8080:80 --env-file .env --name MissasPE-api MissasPE-backend
-```
+docker run -d -p 8080:80 \
+--env-file .env \
+--name MissasPE-api \
+--restart unless-stopped \
+MissasPE-backend
 
 ---
 
